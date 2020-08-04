@@ -3,12 +3,14 @@ module.exports = {
   env: {
     node: true
   },
+  "parser": "vue-eslint-parser",
   extends: [
     'plugin:vue/essential',
     '@vue/standard',
     '@vue/typescript/recommended'
   ],
   parserOptions: {
+  parser: "@typescript-eslint/parser",
     ecmaVersion: 2020
   },
   rules: {
