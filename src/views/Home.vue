@@ -79,7 +79,7 @@ export default class HomeComponent extends Vue {
       ...range(1, 9).map(v => `Fs${v}v10.ogg`)
     ]),
     release: 1,
-    baseUrl: '/piano/'
+    baseUrl: 'piano/'
   }).toDestination()
 
   private async playLick () {
