@@ -1,3 +1,4 @@
+
 export enum PitchName {
   C = 'C',
   D = 'D',
@@ -30,12 +31,11 @@ export class Note {
     const name = sigRemained[0] as PitchName
     const validNameSet = new Set(Object.keys(PitchName))
     if (!validNameSet.has(name)) {
-      console.log(signature, isFlat, isSharp, sigRemained)
       throw new Error(`invalid note name ${name}`)
     }
 
     const level = Number(sigRemained.slice(1))
-    const validLevelSet = new Set([1, 2, 3, 4, 5])
+    const validLevelSet = new Set([1, 2, 3, 4, 5, 6, 7])
     if (!validLevelSet.has(level)) {
       throw new Error(`invalid note level ${level}`)
     }
@@ -55,7 +55,7 @@ export class Note {
     return (level - 1) * 12 + pitchOrder[name] + (isSharp ? 1 : isFlat ? -1 : 0)
   }
 
-  // 默认使用bB3这种格式，也可以使用'tonejs'
+  // 默认使用 |bB3| 这种格式，也可以使用'tonejs'
   toString (format?: 'tonejs') {
     const offset = this.pitch % 12
     const level = Math.floor(this.pitch / 12) + 1
@@ -98,10 +98,10 @@ export class Note {
     return new Note(this.pitch + num)
   }
 }
-// 生成lv1难度的lick 只包含纯八度 纯五度 纯四度
-export function generateLick(len: number, startNote: Note): Note[]
-export function generateLick(len: number, pitch: number): Note[]
-export function generateLick(len: number, signature: string): Note[]
-export function generateLick (len: number, value: Note|number|string): Note[] {
-  return []
+
+export function getNoteOffset (note: Note, targetNote: Note): number {
+  if (note.pitch < targetNote.pitch) {
+    return getNoteOffset(new Note(note.pitch + Math.ceil((targetNote.pitch - note.pitch) / 12)), targetNote)
+  }
+  return (note.pitch - targetNote.pitch) % 12
 }
